@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Law Wai Lok</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Right-side contents bar -->
+  <nav class="sidebar">
+    <h2 class="sidebar-title">
+        <a href="index.html">Law Wai Lok</a>
+    </h2>
+
+    <ul>
+      <li><a href="about.html">About me</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="publications.html">Publications</a></li>
+      <li><a href="https://github.com/eyesacklaw/" target="_blank">GitHub</a></li>
+    </ul>
+
+    <div class="sidebar-bottom">
+      <a href="contact.html">Connect with Me</a>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <main class="content">
+
+    <section class="hero section-bg-0">
+      <h1>Projects</h1>
+
+      <img
+        src="images/misc/program.gif"
+        alt="Sprite"
+        class="hero-gif-static"
+        style="top: 20px; right: 240px;"
+      />
+    </section>
+
+    <section class="intro section-bg-1">
+      <h2>Coding Projects:</h2>
+    </section>
+
+    <section class="desktop-projects-section">
+
+      <!-- Desktop Icons -->
+      <div class="desktop-area">
+        <div class="desktop-icon" data-project="proj1">
+          <img src="images/projects/forecasting_volatility_project.png" alt="Forecasting Volatility">
+          <p>Forecasting Volatility</p>
+        </div>
+
+        <div class="desktop-icon" data-project="proj2">
+          <img src="images/projects/efficient_frontier.png" alt="Monte Carlo Project">
+          <p>Monte Carlo Simulations</p>
+        </div>
+
+        <div class="desktop-icon" data-project="proj3">
+          <img src="images/projects/dashboard/2.png" alt="Financial Dashboard">
+          <p>Financial Dashboard</p>
+        </div>
+
+        <div class="desktop-icon" data-project="proj4">
+          <img src="images/projects/inka_project.PNG" alt="Inka">
+          <p>Inka</p>
+        </div>
+      </div>
+
+      <!-- Project Windows -->
+      <div class="project-window" id="proj1">
+        <div class="window-header">
+          Forecasting Volatility
+          <button class="window-close">✕</button>
+        </div>
+        <div class="window-content">
+          <h2>Forecasting Volatility</h2>
+          <p>Forecasting the volatility of a stock is crucial in portfolio optimisation, risk management, and 
+            pricing options. Our team evaluated the effectiveness of machine learning models (LSTM) compared to 
+            traditional stochastic methods (EWMA, GARCH) in forecasting volatility. Using TensorFlow's LSTM 
+            library, we created features for the models, trained the models against in-sample and validation data, 
+            and calculated the QLIKE (Quasi-Likelihood Loss Function) of the model to determine its effectiveness.
+            </p>
+          <p>
+            We implemented 2 LSTM models. The first one directly predicted volatility, whereas the second one 
+            followed a "hybrid" approach, where they would predict the residuals from our GARCH model, and 
+            both models would be combined to form a prediction. We thought that it would be easier for the model 
+            to predict residuals as they aren't forecasting volatility directly.
+          </p>
+          <p>
+            In terms of our results, we found that pure and hybrid LSTM models underperform stochastic models such 
+            as GJR-GARCH/GARCH, if the inputs only consisted of price derived features (e.g. returns). However, 
+            observing the forecasted volatility of LSTM models, we can see that it does adjust to external shocks, 
+            and it follows the realised volatility trend pretty well. We also noticed that if more features are 
+            fed into our model (such as VIX, volume, and other factors influencing volatility), the LSTM model 
+            <b>outperformed</b> stochastic models by approximately 20%.
+          </p>
+          <div class="window-gallery">
+            <img src="images/projects/forecasting-volatility/1.png" alt="">
+            <img src="images/projects/forecasting-volatility/2.png" alt="">
+            <img src="images/projects/forecasting-volatility/3.png" alt="">
+            <img src="images/projects/forecasting-volatility/4.png" alt="">
+          </div>
+        </div>
+      </div>
+
+      <div class="project-window" id="proj2">
+        <div class="window-header">
+          Monte Carlo Simulations for Portfolio Optimisation
+          <button class="window-close">✕</button>
+        </div>
+        <div class="window-content">
+          <h2>Monte Carlo Simulations for Portfolio Optimisation</h2>
+          <p>Through Monte Carlo Simulations, this project aims to investigate the optimal weights for each stock 
+            in a portfolio. By generating random weights for a portfolio and plotting their returns and volatility, 
+            we derive the mean-variance efficient frontier. The Sharpe ratio is calculated for each point using the 
+            slope of the line passing through the point and the risk free rate. The tangency portfolio, or the 
+            portfolio with the highest Sharpe Ratio is subsequently determined.
+          </p>
+          <p>
+            [Sharpe Ratio determines the investment's return relative to its risk.]
+          </p>
+          <div class="window-gallery">
+            <img src="images/projects/monte-carlo/1.png" alt="">
+            <img src="images/projects/monte-carlo/2.png" alt="">
+            <img src="images/projects/monte-carlo/3.png" alt="">
+          </div>
+        </div>
+      </div>
+
+      <div class="project-window" id="proj3">
+        <div class="window-header">
+          Financial Dashboard
+          <button class="window-close">✕</button>
+        </div>
+        <div class="window-content">
+          <h2>Financial Dashboard</h2>
+          <p>Interactive Financial Dashboard GUI with heatmap comparisons and built-in fundamental analysis 
+            calculations.</p>
+          <div class="window-gallery">
+            <img src="images/projects/dashboard/1.png" alt="">
+            <img src="images/projects/dashboard/2.png" alt="">
+            <img src="images/projects/dashboard/3.png" alt="">
+          </div>
+        </div>
+      </div>
+
+      <div class="project-window" id="proj4">
+        <div class="window-header">
+          Inka
+          <button class="window-close">✕</button>
+        </div>
+        <div class="window-content">
+          <h2>Inka</h2>
+          <p>The unofficial complement to the flashcards app "Anki", Inka generates worksheets for studying, and 
+            creates question "decks". Custom diagrams and images can be added to the worksheets, and there are 
+          charts and statistics to track progress.</p>
+          <div class="window-gallery">
+            <img src="images/projects/inka_project.PNG" alt="">
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <script src="projects.js"></script>
+</body>
+</html>
