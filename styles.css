@@ -17,8 +17,8 @@
 
 body {
   margin: 0;
-  font-family: 'Times New Roman', Times, serif;
-  background: var(--bg);
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  background: var(--bg-0);
   color: var(--text);
   display: flex;
 }
