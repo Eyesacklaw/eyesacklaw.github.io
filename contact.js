@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const clickCounts = { github: 0, linkedin: 0, email: 0 };
-  const maxClicks = 15;
+  const maxClicks = 3;
 
   const progressElements = {
     github: document.querySelector("#github-bar .progress-fill"),
