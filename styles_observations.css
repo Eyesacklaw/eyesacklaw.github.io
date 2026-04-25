@@ -456,7 +456,7 @@ body.bg-dark {
 }
 
 .hero-gif-static {
-  position: absolute;
+  /* position: absolute; */
   width: 200px;
   height: auto;
   z-index: 1;
