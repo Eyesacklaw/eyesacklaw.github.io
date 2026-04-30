@@ -12,23 +12,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Observations</title>
-  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="../styles_observations.css" />
   <link rel="icon" href="../images/favicon.ico">
-  <style>
-    .obs-back {
-      display: inline-block;
-      font-size: 0.95rem;
-      color: var(--muted);
-      text-decoration: none;
-      margin-bottom: 1rem;
-      transition: color 0.2s ease, letter-spacing 0.2s ease;
-    }
-
-    .obs-back:hover {
-      color: var(--text);
-      letter-spacing: 0.03em;
-    }
-  </style>
 </head>
 <body>
   <!-- Google Tag Manager (noscript) -->
@@ -68,9 +53,25 @@
       />
 
       <p>10 min read</p>
+
+      <div class="like-wrapper">
+        <button class="like-btn" id="like-btn" aria-label="Like this post">
+          <span class="heart">♡</span>
+          <span class="label">Like</span>
+          <span class="plus-one">+1</span>
+          <span class="like-burst" id="like-burst">
+            <span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span>
+          </span>
+        </button>
+        <span class="like-count" id="like-count">— likes</span>
+      </div>
+
       <p style="font-size: 12px;">
         <i>Disclaimer: The information provided is for educational purposes only. It does not constitute financial, investment, or personal advice. I am not a financial advisor or professional – I don’t know anything about the market or how it will perform (notice how I've used words like "perhaps" or "maybe"), thus the content here should not be taken as financial guidance. Do your own research. The strategies, products, or services here are not being recommended, endorsed, or guaranteed. Past performance is not indicative of future results, and all investments carry risk, including the potential loss of principal. </i>
       </p>
+
+    </section>
     </section>
 
     <!-- Section 1 -->
@@ -145,5 +146,109 @@
   </main>
 
   <script src="../observations.js"></script>
+
+  <script>
+    // ── Supabase config ──────────────────────────────────────────────
+    const SUPABASE_URL = 'https://vcxyznfjokmeaehumihr.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZjeHl6bmZqb2ttZWFlaHVtaWhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1NDAyMzIsImV4cCI6MjA5MzExNjIzMn0.qTjZD-vxR9uIEQiGnBggZNjOb22PNZDasc8ixO2b9lk';
+ 
+    // ── Unique ID for this page ──────────────────────────────────────
+    const POST_ID = '25.4.26';
+ 
+    // ── localStorage key to remember if this visitor already liked ───
+    const STORAGE_KEY = `liked_${POST_ID}`;
+ 
+    const btn    = document.getElementById('like-btn');
+    const countEl = document.getElementById('like-count');
+ 
+    // Helper: call Supabase REST API
+    async function supabase(method, body) {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/likes`, {
+        method,
+        headers: {
+          'apikey':        SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          'Content-Type':  'application/json',
+          'Prefer':        method === 'POST' ? 'resolution=merge-duplicates' : '',
+        },
+        body: body ? JSON.stringify(body) : undefined,
+      });
+      if (method === 'GET' || method === 'POST') return res.json();
+    }
+ 
+    // Fetch current like count from Supabase
+    async function fetchCount() {
+      const data = await supabase('GET');
+      const row = Array.isArray(data) ? data.find(r => r.post_id === POST_ID) : null;
+      return row ? row.count : 0;
+    }
+ 
+    // Upsert: insert row if it doesn't exist, otherwise increment count
+    async function incrementCount() {
+      const current = await fetchCount();
+      await supabase('POST', { post_id: POST_ID, count: current + 1 });
+      return current + 1;
+    }
+ 
+    // Set button to liked state
+    function setLiked(count) {
+      btn.classList.add('liked');
+      btn.querySelector('.heart').textContent = '♥';
+      btn.querySelector('.label').textContent = 'Liked';
+      countEl.textContent = `${count} ${count === 1 ? 'like' : 'likes'}`;
+      btn.disabled = true;
+    }
+ 
+    // Set button to liked state WITH animation (only on fresh click)
+    function setLikedAnimated(count) {
+      btn.classList.add('liked');
+      btn.querySelector('.heart').textContent = '♥';
+      btn.querySelector('.label').textContent = 'Liked';
+      btn.disabled = true;
+ 
+      // Trigger heart pop + +1 rise
+      btn.classList.add('just-liked');
+ 
+      // Trigger burst
+      const burst = document.getElementById('like-burst');
+      burst.classList.add('burst');
+ 
+      // Count bump animation
+      countEl.classList.add('bumped');
+      countEl.textContent = `${count} ${count === 1 ? 'like' : 'likes'}`;
+ 
+      // Clean up animation classes after they finish
+      setTimeout(() => {
+        btn.classList.remove('just-liked');
+        burst.classList.remove('burst');
+        countEl.classList.remove('bumped');
+      }, 800);
+    }
+ 
+    // Set button to unliked state
+    function setUnliked(count) {
+      btn.classList.remove('liked');
+      btn.querySelector('.heart').textContent = '♡';
+      btn.querySelector('.label').textContent = 'Like';
+      countEl.textContent = `${count} ${count === 1 ? 'like' : 'likes'}`;
+    }
+ 
+    // On page load: fetch count and check if this visitor already liked
+    (async () => {
+      const count = await fetchCount();
+      const hasLiked = localStorage.getItem(STORAGE_KEY) === 'true';
+      hasLiked ? setLiked(count) : setUnliked(count);
+    })();
+ 
+    // On click: increment and save to localStorage
+    btn.addEventListener('click', async () => {
+      if (localStorage.getItem(STORAGE_KEY) === 'true') return;
+      btn.disabled = true;
+      const newCount = await incrementCount();
+      localStorage.setItem(STORAGE_KEY, 'true');
+      setLikedAnimated(newCount);
+    });
+  </script>
+
 </body>
 </html>
