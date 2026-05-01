@@ -440,7 +440,7 @@ body.bg-dark {
 
 /* Floating GIF */
 .hero-gif {
-  position: absolute;
+  /* position: absolute; */
   width: 200px;
   height: auto;
   z-index: 1;
