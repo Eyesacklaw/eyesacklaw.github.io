@@ -9,3 +9,35 @@ const bgMap = {
 };
 
 document.body.style.backgroundColor = "#FFEE8C";
+
+const nameVersions = {
+    'zh-TW': '羅瑋樂',
+    'zh-CN': '罗玮乐',
+    'en':    'Law Wai Lok',
+  };
+
+  const blogNameVersions = {
+    'zh-TW': '《上市》',
+    'zh-CN': '《上市》',
+    'en':    'Observations',
+  };
+
+  function setName(lang) {
+    const name = nameVersions[lang] || 'Law Wai Lok';
+    document.querySelectorAll('.my-name').forEach(el => el.textContent = name);
+
+    const blogName = blogNameVersions[lang] || 'Observations';
+    document.querySelectorAll('.blog-name').forEach(el => el.textContent = blogName);
+    document.querySelectorAll('.blog-name-back').forEach(el => {
+      el.textContent = lang === 'en' ? 'Back to Observations...' : '返回' + blogName + '...';
+    });
+  }
+
+  function doTranslate(lang) {
+    const select = document.querySelector('.goog-te-combo');
+    if (select) {
+      select.value = lang;
+      select.dispatchEvent(new Event('change'));
+    }
+    setName(lang);
+}
