@@ -104,7 +104,6 @@ body {
 
 /* Intro spacing tighter */
 .intro {
-  max-width: 700px;
   margin-top: 0;
   padding: 0 0 0 1.5rem; /* left padding gives bullets room to show */
   color: var(--muted);
@@ -740,6 +739,21 @@ body.bg-dark {
   transform: translateY(-3px);
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
   opacity: 0.95;
+}
+
+/* Issues heading + subtext inside .intro */
+.intro h2 {
+  color: var(--text);
+  font-size: 1.6rem;
+  margin-bottom: 0rem;
+  margin-left: -1.5rem;
+}
+
+.intro > p {
+  color: var(--muted);
+  font-size: 1.05rem;
+  margin-bottom: 1.2rem;
+  margin-left: -1.5rem;
 }
 
 /* ---- Observations Bullet Links ---- */
