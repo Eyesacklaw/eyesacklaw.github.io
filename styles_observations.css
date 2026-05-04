@@ -222,6 +222,10 @@ section h2 {
     grid-template-columns: 1fr;
   }
 
+  .newsletter-section p {
+    width: auto;
+  }
+
   .publication-card {
     flex-direction: column;
     text-align: center;
@@ -1000,29 +1004,21 @@ body {
 
 /* Newsletter signup */
 .newsletter-section {
-  max-width: 520px;
   padding: 0rem 0;
-}
-
-.newsletter-section p {
-  width: 900px;
-}
-
-.newsletter-section h2 {
-  font-size: 1.6rem;
-  margin-bottom: 0rem;
 }
 
 .newsletter-section p {
   color: var(--muted);
   font-size: 1.05rem;
   margin-bottom: 1.2rem;
+  width: 900px;
 }
 
 .newsletter-form {
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
+  max-width: 520px;
 }
 
 .newsletter-form input[type="email"] {
