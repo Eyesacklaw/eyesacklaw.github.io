@@ -222,10 +222,6 @@ section h2 {
     grid-template-columns: 1fr;
   }
 
-  .newsletter-section p {
-    width: auto;
-  }
-
   .publication-card {
     flex-direction: column;
     text-align: center;
@@ -1011,7 +1007,7 @@ body {
   color: var(--muted);
   font-size: 1.05rem;
   margin-bottom: 1.2rem;
-  width: 900px;
+  max-width: 900px;
 }
 
 .newsletter-form {
