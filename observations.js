@@ -1,3 +1,56 @@
+const SUPABASE_URL = 'https://vcxyznfjokmeaehumihr.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZjeHl6bmZqb2ttZWFlaHVtaWhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1NDAyMzIsImV4cCI6MjA5MzExNjIzMn0.qTjZD-vxR9uIEQiGnBggZNjOb22PNZDasc8ixO2b9lk';
+
+async function subscribeNewsletter() {
+  const emailInput = document.getElementById('newsletter-email');
+  const msg = document.getElementById('newsletter-msg');
+  const btn = document.getElementById('newsletter-btn');
+  const email = emailInput.value.trim();
+
+  msg.className = 'newsletter-msg';
+  msg.textContent = '';
+
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    msg.textContent = 'Please enter a valid email address.';
+    msg.classList.add('error');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Subscribing...';
+
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/newsletter_subscribers`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'Prefer': 'return=minimal',
+      },
+      body: JSON.stringify({ email }),
+    });
+
+    if (res.status === 409) {
+      // Unique constraint — already subscribed
+      msg.textContent = "You're already subscribed!";
+      msg.classList.add('success');
+    } else if (!res.ok) {
+      throw new Error('Request failed');
+    } else {
+      msg.textContent = '✓ Subscribed! Thanks for signing up.';
+      msg.classList.add('success');
+      emailInput.value = '';
+    }
+  } catch {
+    msg.textContent = 'Something went wrong. Please try again.';
+    msg.classList.add('error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Subscribe';
+  }
+}
+
 const sections = document.querySelectorAll("section[class*='section-bg-']");
 
 const bgMap = {

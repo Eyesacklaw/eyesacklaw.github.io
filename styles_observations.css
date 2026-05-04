@@ -983,3 +983,82 @@ body.bg-dark {
 body {
   top: 0 !important;
 }
+
+/* Newsletter signup */
+.newsletter-section {
+  max-width: 520px;
+  padding: 0rem 0;
+}
+
+.newsletter-section p {
+  width: 900px;
+}
+
+.newsletter-section h2 {
+  font-size: 1.6rem;
+  margin-bottom: 0rem;
+}
+
+.newsletter-section p {
+  color: var(--muted);
+  font-size: 1.05rem;
+  margin-bottom: 1.2rem;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.newsletter-form input[type="email"] {
+  flex: 1;
+  min-width: 200px;
+  padding: 0.6rem 1rem;
+  border: 1.5px solid var(--accent);
+  border-radius: 2rem;
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 1rem;
+  color: var(--text);
+  background: var(--bg-0);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.newsletter-form input[type="email"]:focus {
+  border-color: var(--text);
+  box-shadow: 0 0 0 3px rgba(139, 188, 207, 0.25);
+}
+
+.newsletter-form button {
+  padding: 0.6rem 1.4rem;
+  border: 1.5px solid var(--accent);
+  border-radius: 2rem;
+  background: var(--bg-2);
+  color: var(--text);
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+.newsletter-form button:hover {
+  background: var(--bg-4);
+  box-shadow: 0 4px 14px rgba(139, 188, 207, 0.5);
+  transform: translateY(-1px);
+}
+
+.newsletter-form button:active {
+  transform: scale(0.96);
+}
+
+.newsletter-msg {
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+  min-height: 1.2em;
+  transition: color 0.2s ease;
+}
+
+.newsletter-msg.success { color: #2e7d52; }
+.newsletter-msg.error   { color: #b91c1c; }

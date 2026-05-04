@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Subscribe — Observations</title>
+  <link rel="stylesheet" href="styles_observations.css" />
+  <link rel="icon" href="images/favicon.ico">
+  <style>
+    /* Override body layout for this page only */
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background-color: #FFEE8C;
+      padding: 2rem;
+    }
+
+    .subscribe-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 3rem 3.5rem;
+      max-width: 520px;
+      width: 100%;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+    }
+
+    .subscribe-card .byline {
+      font-size: 0.85rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .subscribe-card .byline a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    .subscribe-card .byline a:hover {
+      color: var(--text);
+    }
+
+    .subscribe-card h1 {
+      font-size: 1.9rem;
+      line-height: 1.25;
+      margin-bottom: 1rem;
+    }
+
+    .subscribe-card .newsletter-section {
+      padding: 0;
+    }
+
+    .subscribe-card .newsletter-section h2 {
+      display: none;
+    }
+
+    .subscribe-description {
+      font-size: 1.05rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 1.25rem;
+      white-space: normal;
+      word-break: break-word;
+      max-width: 100%;
+    }
+
+    .subscribe-divider {
+      border: none;
+      border-top: 1px solid #e5e7eb;
+      margin: 2rem 0 1.25rem;
+    }
+
+    .subscribe-footer-note {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .subscribe-footer-note a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .subscribe-footer-note a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="subscribe-card">
+    <p class="byline"><a href="index.html">Law Wai Lok</a></p>
+
+    <h1>Markets move fast. Stay ahead of the game.</h1>
+
+    <section class="newsletter-section">
+      <h2>Markets move fast. Stay ahead of the game.</h2>
+      <p class="subscribe-description">Get new issues of <i>Observations</i> delivered to your inbox the moment its published. It's free of charge, and helps me out a lot!</p>
+      <div class="newsletter-form">
+        <input
+          type="email"
+          id="newsletter-email"
+          placeholder="Your email"
+          autocomplete="email"
+        />
+        <button id="newsletter-btn" onclick="subscribeNewsletter()">Subscribe</button>
+      </div>
+      <p id="newsletter-msg" class="newsletter-msg"></p>
+    </section>
+
+    <hr class="subscribe-divider" />
+
+    <p class="subscribe-footer-note">
+      Weekly market commentary — rates, equities, commodities, and whatever else catches my eye.
+      Read past issues at <a href="observations.html">Observations</a>.
+    </p>
+  </div>
+
+  <script src="observations.js"></script>
+
+  <script>
+    const SUPABASE_URL = 'https://vcxyznfjokmeaehumihr.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZjeHl6bmZqb2ttZWFlaHVtaWhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1NDAyMzIsImV4cCI6MjA5MzExNjIzMn0.qTjZD-vxR9uIEQiGnBggZNjOb22PNZDasc8ixO2b9lk';
+
+    async function subscribeNewsletter() {
+      const emailInput = document.getElementById('newsletter-email');
+      const msg = document.getElementById('newsletter-msg');
+      const btn = document.getElementById('newsletter-btn');
+      const email = emailInput.value.trim();
+
+      msg.className = 'newsletter-msg';
+      msg.textContent = '';
+
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        msg.textContent = 'Please enter a valid email address.';
+        msg.classList.add('error');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Subscribing...';
+
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/newsletter_subscribers`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+            'Prefer': 'return=minimal',
+          },
+          body: JSON.stringify({ email }),
+        });
+
+        if (res.status === 409) {
+          msg.textContent = "You're already subscribed!";
+          msg.classList.add('success');
+        } else if (!res.ok) {
+          throw new Error('Request failed');
+        } else {
+          msg.textContent = '✓ Subscribed! Thanks for signing up.';
+          msg.classList.add('success');
+          emailInput.value = '';
+        }
+      } catch {
+        msg.textContent = 'Something went wrong. Please try again.';
+        msg.classList.add('error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Subscribe';
+      }
+    }
+  </script>
+
+</body>
+</html>
