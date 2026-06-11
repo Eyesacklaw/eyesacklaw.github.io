@@ -1,5 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+  // Replace PDF iframe with a download link on touch devices (phones/tablets)
+  const isTouchDevice = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+  if (isTouchDevice) {
+    document.querySelectorAll(".window-pdf").forEach(container => {
+      const iframe = container.querySelector("iframe");
+      if (!iframe) return;
+      const src = iframe.getAttribute("src");
+      const link = document.createElement("a");
+      link.href = src;
+      link.target = "_blank";
+      link.textContent = "Open PDF";
+      link.className = "button";
+      link.style.marginTop = "1rem";
+      container.replaceWith(link);
+    });
+  }
+  
   // OPEN WINDOWS
   document.querySelectorAll(".desktop-icon").forEach(icon => {
     icon.addEventListener("click", () => {
